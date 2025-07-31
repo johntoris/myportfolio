@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body style="background-color: var(--body-background); color: var(--main-color);">
+
+    <header class="main-header" style="position: relative; background: linear-gradient(to right, #000000, #03163d); padding: 20px;">
+        <div class="header-inner d-flex align-items-center">
+            <div class="logo-outer">
+                <div class="logo">
+                    <a href="index.html"><h2 class="toris-footer-logo" style="color: var(--main-color);">John<span style="color: #5fa3e7;">Toris</span></h2>
+                    </a>
+                </div>
+            </div>
+            <h1 style="margin-left: 20px; font-size: 24px;">Admin Panel</h1>
+        </div>
+    </header>
+
+    <main style="padding: 20px;">
+        <section id="login" style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 80vh;">
+            <h2 style="font-size: 32px; margin-bottom: 20px;">Login</h2>
+            <form id="login-form" style="display: flex; flex-direction: column; width: 300px;">
+                <label for="password" style="margin-bottom: 5px;">Password:</label>
+                <input type="password" id="password" name="password" style="padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px;">
+                <button type="submit" class="theme-btn" style="padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">Login</button>
+            </form>
+        </section>
+
+        <section id="dashboard" style="display:none;">
+            <h2 style="font-size: 32px; margin-bottom: 20px;">Dashboard</h2>
+            <nav style="margin-bottom: 20px;">
+                <ul style="display: flex; list-style: none; padding: 0;">
+                    <li style="margin-right: 20px;"><a href="#published" style="color: var(--main-color); text-decoration: none;">Published</a></li>
+                    <li style="margin-right: 20px;"><a href="#drafts" style="color: var(--main-color); text-decoration: none;">Drafts</a></li>
+                    <li><a href="#add-new" style="color: var(--main-color); text-decoration: none;">Add New</a></li>
+                </ul>
+            </nav>
+
+            <div id="published">
+                <h3 style="font-size: 24px; margin-bottom: 10px;">Published Posts</h3>
+                <ul id="published-posts-list" style="list-style: none; padding: 0;">
+                    <li>Post 1</li>
+                    <li>Post 2</li>
+                </ul>
+            </div>
+
+            <div id="drafts">
+                <h3 style="font-size: 24px; margin-bottom: 10px;">Draft Posts</h3>
+                <ul id="draft-posts-list" style="list-style: none; padding: 0;">
+                    <li>Draft 1</li>
+                    <li>Draft 2</li>
+                </ul>
+            </div>
+
+            <div id="add-new">
+                <h3 style="font-size: 24px; margin-bottom: 10px;">Add New Post</h3>
+                <textarea id="post-content" style="width: 100%; height: 200px; padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 5px;"></textarea>
+                <div id="post-settings" style="margin-bottom: 10px;">
+                    <label for="featured-image">Featured Image:</label>
+                    <input type="file" id="featured-image" name="featured-image" style="margin-bottom: 5px;"><br>
+                    <label for="slug">Slug:</label>
+                    <input type="text" id="slug" name="slug" style="padding: 10px; margin-bottom: 5px; border: 1px solid #ccc; border-radius: 5px;"><br>
+                    <label for="keywords">Keywords:</label>
+                    <input type="text" id="keywords" name="keywords" style="padding: 10px; margin-bottom: 5px; border: 1px solid #ccc; border-radius: 5px;"><br>
+                    <label for="seo-title">SEO Title:</label>
+                    <input type="text" id="seo-title" name="seo-title" style="padding: 10px; margin-bottom: 5px; border: 1px solid #ccc; border-radius: 5px;"><br>
+                    <label for="meta-description">Meta Description:</label>
+                    <textarea id="meta-description" name="meta-description" style="width: 100%; height: 100px; padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 5px;"></textarea><br>
+                </div>
+                <button id="publish-button" class="theme-btn" style="padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">Publish</button>
+            </div>
+        </section>
+    </main>
+
+    <footer class="toris-footer" style="background: linear-gradient(to right, #000000, #03163d); color: white; text-align: center; padding: 30px 0; margin-top:30px;">
+        <p>&copy; 2025 Toris Blog</p>
+    </footer>
+
+    <script>
+        const loginForm = document.getElementById('login-form');
+        const passwordInput = document.getElementById('password');
+        const dashboard = document.getElementById('dashboard');
+        const loginSection = document.getElementById('login');
+        const postContent = document.getElementById('post-content');
+        const slugInput = document.getElementById('slug');
+
+        loginForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const password = passwordInput.value;
+            if (password === 'TORISBLOG#1') {
+                loginSection.style.display = 'none';
+                dashboard.style.display = 'block';
+            } else {
+                alert('Incorrect password');
+            }
+        });
+
+        postContent.addEventListener('input', function() {
+            const title = this.value;
+            const slug = title.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '');
+            slugInput.value = slug;
+        });
+
+        document.getElementById('publish-button').addEventListener('click', function() {
+            // Get post data
+            const postData = {
+                content: postContent.value,
+                slug: slugInput.value,
+                featuredImage: document.getElementById('featured-image').value,
+                keywords: document.getElementById('keywords').value,
+                seoTitle: document.getElementById('seo-title').value,
+                metaDescription: document.getElementById('meta-description').value,
+                datePosted: new Date().toISOString()
+            };
+
+            // TODO: Save the post data to a database or file
+            console.log('Post data:', postData);
+            alert('Post published! (Data logged to console)');
+        });
+    </script>
+
+    <footer>
+        <p>&copy; 2025 Toris Blog</p>
+    </footer>
+
+</body>
+</html>

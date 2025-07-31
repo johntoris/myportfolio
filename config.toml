@@ -1,0 +1,13 @@
+baseURL = "https://your-site.netlify.app/"
+languageCode = "en-us"
+title = "My Portfolio"
+theme = "ananke"
+
+[params]
+  description = "A personal portfolio site built with Hugo and Netlify CMS"
+
+[permalinks]
+  blog = "/:slug/"
+
+[markup]
+  defaultMarkdownHandler = "goldmark"
